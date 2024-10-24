@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 function App() {
-  const [numeroAleatorio, setNumeroAleatorio] = useState(1);
-  const [quantidadeGotens, setQuantidadeGotens] = useState(0);
+  const [contadores, setContadores] = useState({ quantidadeGotenks: 0, numeroAleatorio: 1 });
 
   const pegarNumeroAleatorio = () => {
     const numero = Math.floor(Math.random() * 6) + 1;
-    setNumeroAleatorio(numero);
+    setContadores((prevState) => ({ ...prevState, numeroAleatorio: numero}));
   }
 
   useEffect(() => {
@@ -16,7 +15,7 @@ function App() {
       if (data.items) {
         for (const character of data.items) {
           if (character.name === "Gotenks") {
-            setQuantidadeGotens(quantidadeGotens+1)
+            setContadores((prevState) => ({ ...prevState, quantidadeGotenks: prevState.quantidadeGotenks + 1 }));
           }
         }
       } else {
@@ -24,8 +23,8 @@ function App() {
       }
     }
 
-    pegarDadosSayajin(numeroAleatorio);
-  }, [numeroAleatorio])
+    pegarDadosSayajin(contadores.numeroAleatorio);
+  }, [contadores.numeroAleatorio])
 
   return (
     <div>
@@ -35,7 +34,7 @@ function App() {
         +
       </button>
 
-      <h1>{quantidadeGotens}</h1>
+      <h1>{contadores.quantidadeGotenks}</h1>
 
     </div>
   );
