@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div>
-      <h1>Counter Sayajin</h1>
+      <h1>Contador Sayajin</h1>
 
       <button onClick={pegarNumeroAleatorio}>
         +
