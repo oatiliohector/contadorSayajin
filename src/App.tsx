@@ -1,43 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react"
 
-function App() {
-  const [contadores, setContadores] = useState({ quantidadeGotenks: 0, numeroAleatorio: 1 });
+export default function App(){
 
-  const pegarNumeroAleatorio = () => {
-    const numero = Math.floor(Math.random() * 6) + 1;
-    setContadores((prevState) => ({ ...prevState, numeroAleatorio: numero}));
+  const [informacao, setInformacao] = useState({ quantidadeGotenks: 0, numeroAleatorio: 1 });
+
+  const gerarNumeroAleatorio = () => {
+    const numero = Math.floor((Math.random() * 6) + 1);
+    setInformacao((information) => ({ ...information, numeroAleatorio: numero }))
+    console.log(informacao.numeroAleatorio)
   }
-
+  
   useEffect(() => {
-    const pegarDadosSayajin = async (numero: number) => {
-      const resposta = await fetch(`https://dragonball-api.com/api/characters?page=${numero}`);
-      const data = await resposta.json()
-      if (data.items) {
-        for (const character of data.items) {
-          if (character.name === "Gotenks") {
-            setContadores((prevState) => ({ ...prevState, quantidadeGotenks: prevState.quantidadeGotenks + 1 }));
+    const chamadaAPI = async(numero: number) => {
+      const requisicao = await fetch(`https://dragonball-api.com/api/characters?page=${numero}`)
+      const data = await requisicao.json()
+
+      if(data.items){
+        for(const personagem of data.items){
+          if(personagem.name === "Gotenks"){
+            setInformacao((information) => ({ ...information, quantidadeGotenks: informacao.quantidadeGotenks + 1 }))
           }
         }
-      } else {
-        console.error("Personagens não encontrados na resposta");
       }
     }
 
-    pegarDadosSayajin(contadores.numeroAleatorio);
-  }, [contadores.numeroAleatorio])
+    chamadaAPI(informacao.numeroAleatorio)
+    
+  }, [informacao.numeroAleatorio])
 
-  return (
+  return(
     <div>
-      <h1>Contador Sayajin</h1>
-
-      <button onClick={pegarNumeroAleatorio}>
-        +
+      <button onClick={gerarNumeroAleatorio}>
+        Gerar numero aleatorio
       </button>
 
-      <h1>{contadores.quantidadeGotenks}</h1>
-
+      <h1>Quantidade de Gotenks: {informacao.quantidadeGotenks}</h1>
     </div>
-  );
+  )
 }
-
-export default App;
